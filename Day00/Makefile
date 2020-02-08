@@ -10,8 +10,9 @@ OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o))
 
 vpath %.c $(foreach dir, $(SRC_DIR), $(dir):)
 
-CFLAG = -Werror -Wextra -Wall
+CFLAG = -fsanitize=address
 IFLAG = $(foreach dir, $(INC_DIR), -I $(dir) )
+LFLAG = -L lib/mlx -l mlx
 
 all		: $(NAME)
 
@@ -24,7 +25,10 @@ $(OBJ_DIR)/%.o : %.c
 	@gcc $(CFLAG) $(IFLAG) -c $< -o $@
 
 $(NAME)	: $(OBJ)
-	@gcc $(CFLAG) $(IFLAG) $(OBJ) -o $@
+	@gcc $(CFLAG) $(IFLAG) $(LFLAG) $(OBJ) -o $@
+
+install :
+	make -C lib/mlx
 
 clean	:
 	@rm -f $(OBJ)
@@ -34,5 +38,4 @@ fclean	: clean
 
 re		: fclean all
 
-show	:
-	echo "SRC_DIR = \n$(SRC_DIR)"
+PHONY	:
