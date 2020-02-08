@@ -12,7 +12,7 @@ vpath %.c $(foreach dir, $(SRC_DIR), $(dir):)
 
 CFLAG = -fsanitize=address
 IFLAG = $(foreach dir, $(INC_DIR), -I $(dir) )
-LFLAG = -L lib/mlx -l mlx
+LFLAG = 
 
 all		: $(NAME)
 
@@ -26,9 +26,6 @@ $(OBJ_DIR)/%.o : %.c
 
 $(NAME)	: $(OBJ)
 	@gcc $(CFLAG) $(IFLAG) $(LFLAG) $(OBJ) -o $@
-
-install :
-	make -C lib/mlx
 
 clean	:
 	@rm -f $(OBJ)
